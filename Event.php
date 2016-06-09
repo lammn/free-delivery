@@ -10,14 +10,8 @@
  */
 
 namespace Plugin\FreeDelivery;
-use Eccube\Entity\Product;
-use Plugin\FreeDelivery\Entity\FreeDeliProduct;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Eccube\Entity\Order;
 use Eccube\Event\EventArgs;
-use Symfony\Component\DomCrawler\Crawler;
 use Eccube\Application;
 use Plugin\FreeDelivery\Service\FreeDeliveryService;
 
