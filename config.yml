@@ -1,0 +1,8 @@
+name: FreeDelivery
+code: FreeDelivery
+version: 1.0.0
+event: Event
+service:
+    - FreeDeliveryServiceProvider
+orm.path:
+  - /Resource/doctrine

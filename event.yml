@@ -1,0 +1,8 @@
+eccube.event.render.shopping.before:
+    - [onRenderShoppingBefore, NORMAL]
+admin.product.edit.initialize:
+    - [onRenderProductsEdit, NORMAL]
+admin.product.edit.complete:
+    - [onAdminProductEditComplete, NORMAL]
+eccube.event.render.product_detail.before:
+    - [onRenderProductsDetailBefore, NORMAL]

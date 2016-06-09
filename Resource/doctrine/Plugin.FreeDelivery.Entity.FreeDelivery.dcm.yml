@@ -1,0 +1,32 @@
+Plugin\FreeDelivery\Entity\FreeDelivery:
+    type: entity
+    table: plg_free_delivery
+    repositoryClass: Plugin\FreeDelivery\Repository\FreeDeliveryRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: plugin_id
+            generator:
+                strategy: NONE
+    fields:
+        option:
+            type: smallint
+            nullable: false
+            unsigned: false
+        free_from:
+            type: datetime
+            nullable: false
+        free_to:
+            type: datetime
+            nullable: false
+        create_date:
+            type: datetime
+            nullable: false
+        update_date:
+            type: datetime
+            nullable: false
+
+    lifecycleCallbacks: {  }

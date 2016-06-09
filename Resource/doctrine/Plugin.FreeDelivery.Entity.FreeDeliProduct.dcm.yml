@@ -1,0 +1,38 @@
+Plugin\FreeDelivery\Entity\FreeDeliProduct:
+    type: entity
+    table: plg_free_delivery_product
+    repositoryClass: Plugin\FreeDelivery\Repository\FreeDeliProductRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: free_delivery_id
+            generator:
+                strategy: AUTO
+    fields:
+        free_deli_checkbox:
+            type: smallint
+            nullable: false
+            unsigned: false
+        sell_from:
+            type: datetime
+            nullable: true
+        sell_to:
+            type: datetime
+            nullable: true
+        create_date:
+            type: datetime
+            nullable: false
+        update_date:
+            type: datetime
+            nullable: false
+    manyToOne:
+        Product:
+            targetEntity: Eccube\Entity\Product
+            joinColumn:
+                name: product_id
+                referencedColumnName: product_id
+                nullable: false
+    lifecycleCallbacks: {  }
