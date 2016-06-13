@@ -7,6 +7,7 @@
  */
 namespace Plugin\FreeDelivery\Service;
 use Eccube\Entity\Product;
+use Plugin\FreeDelivery\Entity\CategoryMember;
 use Plugin\FreeDelivery\Entity\FreeDeliProduct;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -176,6 +177,77 @@ class FreeDeliveryService
             ));
     }
 
+    public function getHtmlAdminCategory(EventArgs $event)
+    {
+        $builder = $event->getArgument('builder');
+        $Category = $event->getArgument('TargetCategory');
+        $data = 1;
+        if(!is_null($Category->getId())){
+            $CategoryMember = $this->app['eccube.plugin.repository.category_member']->findOneBy(array(
+                "Category" => $Category
+            ));
+            if($CategoryMember != null && $CategoryMember->getCategory()->getId() == $Category->getId()){
+                $data = $CategoryMember->getCateMemberCheckbox();
+            }
+        }
+        $builder
+            ->add('plg_category_member', 'choice', array(
+                'label' =>false,
+                'choices' => array(
+                    '1' => '会員限定',
+                    '2' => '会員限定(なし)'
+                ),
+                'expanded' => false,
+                'multiple' => false,
+                'required' => false,
+                'empty_value' => false,
+                'mapped' => false,
+                'data' => $data,
+            ));
+    }
+
+    public function saveCategoryMember(EventArgs $event)
+    {
+        // フォーム情報取得処理
+        $form = $event->getArgument('form');
+        $selectBox = $form->get('plg_category_member')->getData();
+        $Category = $event->getArgument('TargetCategory');
+        $CategoryMember = $this->app['eccube.plugin.repository.category_member']->findOneBy(array(
+            "Category" => $Category
+        ));
+        if ($CategoryMember == null) {
+            $CategoryMember = new CategoryMember();
+        }
+        $CategoryMember->setCateMemberCheckbox($selectBox);
+        $CategoryMember->setCategory($Category);
+        $this->app['orm.em']->persist($CategoryMember);
+        $this->app['orm.em']->flush($CategoryMember);
+    }
+
+    public function getTopHtml(Request $request, Response $response)
+    {
+        if(!$this->isAuthRouteFront()){
+            $crawler = new Crawler($response->getContent());
+            $CategoryMembers = $this->app['eccube.plugin.repository.category_member']->findAll();
+            $Categories = $this->app['eccube.repository.category']->findBy(array(
+                "Parent" => NULL
+            ));
+            $category = $this->app->renderView(
+                'FreeDelivery/Resource/template/category.twig', array(
+                    'Categories' => $Categories,
+                    'CategoryMembers' => $CategoryMembers
+                )
+            );
+            $html = $response->getContent();
+            $crawler = new Crawler($html);
+            $html = $this->changeHtml("#category", $crawler, $category);
+            $response->setContent($html);
+            return $response;
+        }
+        return $response;
+    }
+
+
     public function saveFreeDeliveryProduct(EventArgs $event)
     {
         // フォーム情報取得処理
@@ -259,4 +331,10 @@ class FreeDeliveryService
         }
         return html_entity_decode($html, ENT_NOQUOTES, 'UTF-8');
     }
+
+    protected function isAuthRouteFront()
+    {
+        return $this->app->isGranted('ROLE_USER');
+    }
+
 }

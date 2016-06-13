@@ -6,3 +6,11 @@ admin.product.edit.complete:
     - [onAdminProductEditComplete, NORMAL]
 eccube.event.render.product_detail.before:
     - [onRenderProductsDetailBefore, NORMAL]
+admin.product.category.index.initialize:
+    - [onRenderCategoryBefore, NORMAL]
+admin.product.category.index.complete:
+    - [onCategorytComplete, NORMAL]
+eccube.event.render.product_list.before:
+    - [onRenderEccubeBefore, NORMAL]
+eccube.event.render.homepage.before:
+    - [onRenderEccubeBefore, NORMAL]

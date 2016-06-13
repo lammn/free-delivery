@@ -48,6 +48,10 @@ class FreeDeliveryServiceProvider implements ServiceProviderInterface
             return $app['orm.em']->getRepository('Plugin\FreeDelivery\Entity\FreeDelivery');
         });
 
+        $app['eccube.plugin.repository.category_member'] = $app->share(function () use ($app) {
+            return $app['orm.em']->getRepository('Plugin\FreeDelivery\Entity\CategoryMember');
+        });
+
         // language
         $app['translator'] = $app->share($app->extend('translator', function ($translator, \Silex\Application $app) {
             $translator->addLoader('yaml', new \Symfony\Component\Translation\Loader\YamlFileLoader());

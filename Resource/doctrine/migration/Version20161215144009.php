@@ -24,16 +24,19 @@ class Version20161215144009 extends AbstractMigration
     {
         $this->tables = array(
             'plg_free_delivery',
-            'plg_free_delivery_product'
+            'plg_free_delivery_product',
+            'plg_category_member',
         );
 
         $this->entities = array(
             'Plugin\FreeDelivery\Entity\FreeDelivery',
-            'Plugin\FreeDelivery\Entity\FreeDeliProduct'
+            'Plugin\FreeDelivery\Entity\FreeDeliProduct',
+            'Plugin\FreeDelivery\Entity\CategoryMember'
         );
 
         $this->sequences = array(
             'plg_free_delivery_product_free_delivery_id_seq',
+            'plg_category_member_cate_member_id_seq',
         );
     }
 

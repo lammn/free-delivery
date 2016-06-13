@@ -1,0 +1,32 @@
+Plugin\FreeDelivery\Entity\CategoryMember:
+    type: entity
+    table: plg_category_member
+    repositoryClass: Plugin\FreeDelivery\Repository\CategoryMemberRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: cate_member_id
+            generator:
+                strategy: AUTO
+    fields:
+        cate_member_checkbox:
+            type: smallint
+            nullable: false
+            unsigned: false
+        create_date:
+            type: datetime
+            nullable: false
+        update_date:
+            type: datetime
+            nullable: false
+    manyToOne:
+        Category:
+            targetEntity: Eccube\Entity\Category
+            joinColumn:
+                name: category_id
+                referencedColumnName: category_id
+                nullable: false
+    lifecycleCallbacks: {  }

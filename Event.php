@@ -62,6 +62,29 @@ class Event
         }
     }
 
+    public function onRenderCategoryBefore(EventArgs $event)
+    {
+        $this->service->getHtmlAdminCategory($event);
+    }
+
+    public function onCategorytComplete(EventArgs $event)
+    {
+        $this->service->saveCategoryMember($event);
+    }
+
+    public function onRenderProductsListBefore(FilterResponseEvent $event)
+    {
+        
+    }
+
+    public function onRenderEccubeBefore(FilterResponseEvent $event)
+    {
+        $request = $event->getRequest();
+        $response = $event->getResponse();
+        $response = $this->service->getTopHtml($request, $response);
+        $event->setResponse($response);
+    }
+
     /**
      * 受注データを取得
      *
